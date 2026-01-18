@@ -1,0 +1,134 @@
+## Build results and binaries
+bin/
+obj/
+out/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio / Rider user files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.swp
+*~
+*.DotSettings.user
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+.nuget/
+
+## Test Results
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Publish profiles
+PublishProfiles/
+*.pubxml
+*.publishsettings
+
+## Database files
+*.mdf
+*.ldf
+*.ndf
+
+## Entity Framework
+*.edmx.diagram
+*.edmx.sql
+
+## User secrets and sensitive configuration
+launchSettings.json
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+*.secrets.json
+UserSecrets/
+
+## Node.js dependencies (if using frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+## wwwroot generated files
+wwwroot/dist/
+wwwroot/lib/
+
+## Temporary files
+*.tmp
+*.temp
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings
+
+## OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Backup files
+*.bak
+*.backup
+*~
+
+## Optional: Uncomment if needed
+# Migrations/
+# docker-compose.override.yml
+# .github/workflows/*.secrets.yml
+# .gitlab-ci.local.yml
