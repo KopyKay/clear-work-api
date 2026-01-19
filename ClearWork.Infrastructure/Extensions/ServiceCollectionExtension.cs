@@ -1,5 +1,7 @@
 ﻿using ClearWork.Domain.Entities;
+using ClearWork.Domain.Repositories;
 using ClearWork.Infrastructure.Persistence;
+using ClearWork.Infrastructure.Repositories;
 using ClearWork.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,5 +23,12 @@ public static class ServiceCollectionExtension
             .AddEntityFrameworkStores<ClearWorkDbContext>();
 
         services.AddScoped<IClearWorkSeeder, ClearWorkSeeder>();
+        services.AddScoped<IAnnualTaxRateRepository, AnnualTaxRateRepository>();
+        services.AddScoped<IAppSettingRepository, AppSettingRepository>();
+        services.AddScoped<IBusinessTripRepository, BusinessTripRepository>();
+        services.AddScoped<IEmploymentContractRepository, EmploymentContractRepository>();
+        services.AddScoped<IPaycheckRepository, PaycheckRepository>();
+        services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
+        services.AddScoped<IWorkplaceRepository, WorkplaceRepository>();
     }
 }
