@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ClearWork.Application.Users;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,5 +18,8 @@ public static class ServiceCollectionExtension
 
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(applicationAssembly));
+        
+        services.AddScoped<IUserContext, UserContext>();
+        services.AddHttpContextAccessor();
     }
 }

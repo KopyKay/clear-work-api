@@ -1,6 +1,7 @@
 using ClearWork.API.Extensions;
 using ClearWork.API.Middlewares;
 using ClearWork.Application.Extensions;
+using ClearWork.Domain.Entities;
 using ClearWork.Infrastructure.Extensions;
 using ClearWork.Infrastructure.Seeders;
 using Serilog;
@@ -28,6 +29,12 @@ app.UseSerilogRequestLogging();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapGroup("/api/identity")
+    .WithTags("Identity")
+    .MapIdentityApi<User>();
 
 app.MapControllers();
 
