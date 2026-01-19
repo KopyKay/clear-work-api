@@ -1,4 +1,5 @@
 using ClearWork.API.Extensions;
+using ClearWork.API.Middlewares;
 using ClearWork.Application.Extensions;
 using ClearWork.Infrastructure.Extensions;
 using ClearWork.Infrastructure.Seeders;
@@ -23,6 +24,8 @@ var seeder = scope.ServiceProvider.GetRequiredService<IClearWorkSeeder>();
 await seeder.SeedAsync();
 
 app.UseSerilogRequestLogging();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

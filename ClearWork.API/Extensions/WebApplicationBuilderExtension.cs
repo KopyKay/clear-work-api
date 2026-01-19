@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using ClearWork.API.Middlewares;
+using Serilog;
 
 namespace ClearWork.API.Extensions;
 
@@ -14,5 +15,7 @@ public static class WebApplicationBuilderExtension
         {
             configuration.ReadFrom.Configuration(context.Configuration);
         });
+
+        builder.Services.AddScoped<ErrorHandlingMiddleware>();
     }
 }
