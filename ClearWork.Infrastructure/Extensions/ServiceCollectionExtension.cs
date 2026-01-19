@@ -1,5 +1,6 @@
 ﻿using ClearWork.Domain.Entities;
 using ClearWork.Infrastructure.Persistence;
+using ClearWork.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -18,5 +19,7 @@ public static class ServiceCollectionExtension
 
         services.AddIdentityApiEndpoints<User>()
             .AddEntityFrameworkStores<ClearWorkDbContext>();
+
+        services.AddScoped<IClearWorkSeeder, ClearWorkSeeder>();
     }
 }

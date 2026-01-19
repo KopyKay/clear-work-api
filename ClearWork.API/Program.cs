@@ -1,6 +1,7 @@
 using ClearWork.API.Extensions;
 using ClearWork.Application.Extensions;
 using ClearWork.Infrastructure.Extensions;
+using ClearWork.Infrastructure.Seeders;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var scope = app.Services.CreateAsyncScope();
+var seeder = scope.ServiceProvider.GetRequiredService<IClearWorkSeeder>();
+await seeder.SeedAsync();
 
 app.UseSerilogRequestLogging();
 
