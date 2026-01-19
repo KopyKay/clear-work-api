@@ -21,5 +21,6 @@ internal class ClearWorkDbContext(DbContextOptions<ClearWorkDbContext> options) 
         base.OnModelCreating(builder);
         builder.Ignore<IdentityUserLogin<string>>();
         builder.Ignore<IdentityUserToken<string>>();
+        builder.ApplyConfigurationsFromAssembly(typeof(ClearWorkDbContext).Assembly);
     }
 }
