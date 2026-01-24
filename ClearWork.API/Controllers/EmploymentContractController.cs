@@ -22,12 +22,12 @@ public class EmploymentContractController(IMediator mediator) : ControllerBase
         return Ok(workplaceEmploymentContracts);
     }
     
-    [HttpGet("{employmentContractId:int}")]
+    [HttpGet("{contractId:int}")]
     public async Task<ActionResult<EmploymentContractDto?>> GetWorkplaceEmploymentContract
-        ([FromRoute] int workplaceId, [FromRoute] int employmentContractId)
+        ([FromRoute] int workplaceId, [FromRoute] int contractId)
     {
         var workplaceEmploymentContract = 
-            await mediator.Send(new GetWorkplaceEmploymentContractQuery(workplaceId, employmentContractId));
+            await mediator.Send(new GetWorkplaceEmploymentContractQuery(workplaceId, contractId));
         return Ok(workplaceEmploymentContract);
     }
 }
