@@ -1,6 +1,4 @@
-﻿using ClearWork.Application.PpkSettings.Dtos;
-
-namespace ClearWork.Application.Workplaces.Dtos;
+﻿namespace ClearWork.Application.Workplaces.Dtos;
 
 public class WorkplaceDto
 {
