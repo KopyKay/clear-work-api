@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ClearWork.Application.AppSettings.Queries.GetUserAppSettings;
 
-public record GetUserAppSettingsQuery : IRequest<AppSettingDto>;
+public record GetUserAppSettingsQuery : IRequest<AppSettingDto?>;

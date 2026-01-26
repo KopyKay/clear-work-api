@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using ClearWork.Application.Users;
+using ClearWork.Domain.Entities;
+using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -21,7 +23,8 @@ public class UpdateUserAppSettingsCommandHandler
         
         logger.LogInformation("Updating app settings for user with id [{UserId}]", userId);
 
-        var userAppSettings = await repository.GetUserAppSettingsWithTrackingAsync(userId);
+        var userAppSettings = await repository.GetUserAppSettingsWithTrackingAsync(userId)
+            ?? throw new NotFoundException(nameof(AppSetting), string.Empty);
         
         mapper.Map(request, userAppSettings);
         

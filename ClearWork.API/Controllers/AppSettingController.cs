@@ -23,7 +23,7 @@ public class AppSettingController(IMediator mediator) : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<AppSettingDto>> GetUserAppSettings()
+    public async Task<ActionResult<AppSettingDto?>> GetUserAppSettings()
     {
         var userAppSettings = await mediator.Send(new GetUserAppSettingsQuery());
         return Ok(userAppSettings);
@@ -31,6 +31,7 @@ public class AppSettingController(IMediator mediator) : ControllerBase
 
     [HttpPatch("update")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateUserAppSettings([FromBody, Required] UpdateUserAppSettingsCommand command)
     {
         await mediator.Send(command);
