@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using ClearWork.Application.BusinessTrips.Dtos;
+using ClearWork.Application.Extensions;
 using ClearWork.Application.Users;
-using ClearWork.Domain.Entities;
-using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -26,19 +25,13 @@ public class GetEmploymentContractBusinessTripQueryHandler
         
         logger.LogInformation("Getting business trip with id [{BusinessTripId}] from employment contract with id [{ContractId}]",
             request.BusinessTripId, request.ContractId);
-        
-        _ = await workplaceRepository.GetUserWorkplaceAsync(userId, request.WorkplaceId)
-            ?? throw new NotFoundException(nameof(Workplace),
-                $"{request.WorkplaceId.ToString()} for this user");
-        
-        _ = await employmentContractRepository.GetWorkplaceEmploymentContractAsync(request.WorkplaceId, request.ContractId)
-            ?? throw new NotFoundException(nameof(EmploymentContract),
-                $"{request.ContractId.ToString()} for this workplace");
 
-        var employmentContractBusinessTrip = 
-            await businessTripRepository.GetEmploymentContractBusinessTripAsync(request.ContractId, request.BusinessTripId)
-            ?? throw new NotFoundException(nameof(BusinessTrip),
-                $"{request.BusinessTripId.ToString()} for this employment contract");
+        await workplaceRepository.GetUserWorkplaceOrThrowAsync(userId, request.WorkplaceId);
+
+        await employmentContractRepository.GetWorkplaceEmploymentContractOrThrowAsync(request.WorkplaceId, request.ContractId);
+
+        var employmentContractBusinessTrip =
+            await businessTripRepository.GetEmploymentContractBusinessTripOrThrowAsync(request.ContractId, request.BusinessTripId);
 
         var employmentContractBusinessTripDto = mapper.Map<BusinessTripDto>(employmentContractBusinessTrip);
 

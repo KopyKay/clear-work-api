@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using ClearWork.Application.Extensions;
 using ClearWork.Application.Paychecks.Dtos;
 using ClearWork.Application.Users;
-using ClearWork.Domain.Entities;
-using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -26,19 +25,13 @@ public class GetEmploymentContractPaycheckQueryHandler
         
         logger.LogInformation("Getting paycheck with id [{PaycheckId}] from employment contract with id [{ContractId}]",
             request.PaycheckId, request.ContractId);
-        
-        _ = await workplaceRepository.GetUserWorkplaceAsync(userId, request.WorkplaceId)
-            ?? throw new NotFoundException(nameof(Workplace),
-                $"{request.WorkplaceId.ToString()} for this user");
-        
-        _ = await employmentContractRepository.GetWorkplaceEmploymentContractAsync(request.WorkplaceId, request.ContractId)
-            ?? throw new NotFoundException(nameof(EmploymentContract),
-                $"{request.ContractId.ToString()} for this workplace");
+
+        await workplaceRepository.GetUserWorkplaceOrThrowAsync(userId, request.WorkplaceId);
+
+        await employmentContractRepository.GetWorkplaceEmploymentContractOrThrowAsync(request.WorkplaceId, request.ContractId);
 
         var employmentContractPaycheck =
-            await paycheckRepository.GetEmploymentContractPaycheckAsync(request.ContractId, request.PaycheckId)
-            ?? throw new NotFoundException(nameof(Paycheck),
-                $"{request.PaycheckId.ToString()} for this employment contract");
+            await paycheckRepository.GetEmploymentContractPaycheckOrThrowAsync(request.ContractId, request.PaycheckId);
 
         var employmentContractPaycheckDto = mapper.Map<PaycheckDto>(employmentContractPaycheck);
 

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using ClearWork.Application.Extensions;
 using ClearWork.Application.Users;
 using ClearWork.Application.Workplaces.Dtos;
-using ClearWork.Domain.Entities;
-using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,9 +23,7 @@ public class GetUserWorkplaceQueryHandler
         
         logger.LogInformation("Getting workplace with id [{WorkplaceId}] for user with id [{UserId}]", request.WorkplaceId, userId);
 
-        var userWorkplace = await repository.GetUserWorkplaceAsync(userId, request.WorkplaceId)
-            ?? throw new NotFoundException(nameof(Workplace),
-                $"{request.WorkplaceId.ToString()} for this user");
+        var userWorkplace = await repository.GetUserWorkplaceOrThrowAsync(userId, request.WorkplaceId);
 
         var userWorkplaceDto = mapper.Map<WorkplaceDto>(userWorkplace);
 

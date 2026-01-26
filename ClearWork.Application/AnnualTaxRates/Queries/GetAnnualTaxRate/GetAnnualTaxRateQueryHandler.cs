@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using ClearWork.Application.AnnualTaxRates.Dtos;
+using ClearWork.Application.Extensions;
 using ClearWork.Application.Users;
-using ClearWork.Domain.Entities;
-using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -23,10 +22,8 @@ public class GetAnnualTaxRateQueryHandler
         var userId = userContext.GetCurrentUser()!.Id;
         
         logger.LogInformation("Getting annual tax rate from year [{Year}] for user with id [{UserId}]", request.Year, userId);
-        
-        var userAnnualTaxRate = await repository.GetUserAnnualTaxRateAsync(userId, request.Year)
-            ?? throw new NotFoundException(nameof(AnnualTaxRate),
-                $"{request.Year.ToString()} year for this user");
+
+        var userAnnualTaxRate = await repository.GetUserAnnualTaxRateOrThrowAsync(userId, request.Year);
         
         var userAnnualTaxRateDto = mapper.Map<AnnualTaxRateDto>(userAnnualTaxRate);
         

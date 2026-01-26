@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using ClearWork.Application.Extensions;
 using ClearWork.Application.TimeEntries.Dtos;
 using ClearWork.Application.Users;
-using ClearWork.Domain.Entities;
-using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -26,19 +25,13 @@ public class GetEmploymentContractTimeEntryQueryHandler
         
         logger.LogInformation("Getting time entry with id [{TimeEntryId}] from employment contract with id [{ContractId}]",
             request.TimeEntryId, request.ContractId);
-        
-        _ = await workplaceRepository.GetUserWorkplaceAsync(userId, request.WorkplaceId)
-            ?? throw new NotFoundException(nameof(Workplace),
-                $"{request.WorkplaceId.ToString()} for this user");
-        
-        _ = await employmentContractRepository.GetWorkplaceEmploymentContractAsync(request.WorkplaceId, request.ContractId)
-            ?? throw new NotFoundException(nameof(EmploymentContract),
-                $"{request.ContractId.ToString()} for this workplace");
-        
+
+        await workplaceRepository.GetUserWorkplaceOrThrowAsync(userId, request.WorkplaceId);
+
+        await employmentContractRepository.GetWorkplaceEmploymentContractOrThrowAsync(request.WorkplaceId, request.ContractId);
+
         var employmentContractTimeEntry =
-            await timeEntryRepository.GetEmploymentContractTimeEntryAsync(request.ContractId, request.TimeEntryId)
-            ?? throw new NotFoundException(nameof(TimeEntry),
-                $"{request.TimeEntryId.ToString()} for this employment contract");
+            await timeEntryRepository.GetEmploymentContractTimeEntryOrThrowAsync(request.ContractId, request.TimeEntryId);
         
         var employmentContractTimeEntryDto = mapper.Map<TimeEntryDto>(employmentContractTimeEntry);
         

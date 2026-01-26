@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using ClearWork.Application.EmploymentContracts.Dtos;
+using ClearWork.Application.Extensions;
 using ClearWork.Application.Users;
-using ClearWork.Domain.Entities;
-using ClearWork.Domain.Exceptions;
 using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -25,9 +24,7 @@ public class GetWorkplaceEmploymentContractsQueryHandler
         
         logger.LogInformation("Getting employment contracts from workplace with id [{WorkplaceId}]", request.WorkplaceId);
 
-        _ = await workplaceRepository.GetUserWorkplaceAsync(userId, request.WorkplaceId) 
-            ?? throw new NotFoundException(nameof(Workplace),
-                $"{request.WorkplaceId.ToString()} for this user");
+        await workplaceRepository.GetUserWorkplaceOrThrowAsync(userId, request.WorkplaceId);
         
         var workplaceEmploymentContracts =
             await employmentContractRepository.GetWorkplaceEmploymentContractsAsync(request.WorkplaceId);
