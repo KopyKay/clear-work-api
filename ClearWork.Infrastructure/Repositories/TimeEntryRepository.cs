@@ -12,7 +12,6 @@ internal class TimeEntryRepository(ClearWorkDbContext dbContext) : ITimeEntryRep
         var timeEntries = await dbContext.TimeEntries
             .AsNoTracking()
             .Include(te => te.Calculation)
-            .Include(te => (te as WorkEntry)!.DailyBusinessTripDetail) 
             .Where(te => te.EmploymentContractId == contractId)
             .ToListAsync();
 
@@ -24,7 +23,6 @@ internal class TimeEntryRepository(ClearWorkDbContext dbContext) : ITimeEntryRep
         var timeEntry = await dbContext.TimeEntries
             .AsNoTracking()
             .Include(te => te.Calculation)
-            .Include(te => (te as WorkEntry)!.DailyBusinessTripDetail)
             .FirstOrDefaultAsync(te => te.EmploymentContractId == contractId && te.Id == timeEntryId);
 
         return timeEntry;
