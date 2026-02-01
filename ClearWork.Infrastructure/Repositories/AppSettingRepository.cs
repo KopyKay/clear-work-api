@@ -15,19 +15,14 @@ internal class AppSettingRepository(ClearWorkDbContext dbContext) : IAppSettingR
         return entity.Id;
     }
 
-    public async Task<AppSetting?> GetUserAppSettingsAsync(string userId)
+    public async Task<AppSetting?> GetUserAppSettingsAsync(string userId, bool trackChanges = false)
     {
-        var appSetting = await dbContext.AppSettings
-            .AsNoTracking()
-            .FirstOrDefaultAsync(@as => @as.UserId == userId);
+        var query = dbContext.AppSettings.AsQueryable();
 
-        return appSetting;
-    }
-
-    public async Task<AppSetting?> GetUserAppSettingsWithTrackingAsync(string userId)
-    {
-        var appSetting = await dbContext.AppSettings
-            .FirstOrDefaultAsync(@as => @as.UserId == userId);
+        if (!trackChanges)
+            query = query.AsNoTracking();
+        
+        var appSetting = await query.FirstOrDefaultAsync(@as => @as.UserId == userId);
 
         return appSetting;
     }

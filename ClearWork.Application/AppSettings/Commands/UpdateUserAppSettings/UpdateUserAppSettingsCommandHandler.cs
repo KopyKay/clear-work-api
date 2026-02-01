@@ -23,7 +23,7 @@ public class UpdateUserAppSettingsCommandHandler
         
         logger.LogInformation("Updating app settings for user with id [{UserId}]", userId);
 
-        var userAppSettings = await repository.GetUserAppSettingsWithTrackingAsync(userId)
+        var userAppSettings = await repository.GetUserAppSettingsAsync(userId, true)
             ?? throw new NotFoundException(nameof(AppSetting), string.Empty);
         
         mapper.Map(request, userAppSettings);
