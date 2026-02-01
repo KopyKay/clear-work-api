@@ -17,12 +17,25 @@ internal class AnnualTaxRateRepository(ClearWorkDbContext dbContext) : IAnnualTa
         return annualTaxRates;
     }
 
-    public async Task<AnnualTaxRate?> GetUserAnnualTaxRateAsync(string userId, int year)
+    public async Task<AnnualTaxRate?> GetUserAnnualTaxRateAsync(string userId, int year, bool trackChanges = false)
     {
-        var annualTaxRate = await dbContext.AnnualTaxRates
-            .AsNoTracking()
-            .FirstOrDefaultAsync(atr => atr.UserId == userId && atr.Year == year);
+        var query = dbContext.AnnualTaxRates.AsQueryable();
+
+        if (!trackChanges) 
+            query = query.AsNoTracking();
+        
+        var annualTaxRate = await query.FirstOrDefaultAsync(atr => atr.UserId == userId && atr.Year == year);
         
         return annualTaxRate;
     }
+
+    public async Task<int> CreateUserAnnualTaxRateAsync(AnnualTaxRate entity)
+    {
+        await dbContext.AddAsync(entity);
+        await SaveChangesAsync();
+
+        return entity.Year;
+    }
+
+    public async Task SaveChangesAsync() => await dbContext.SaveChangesAsync();
 }

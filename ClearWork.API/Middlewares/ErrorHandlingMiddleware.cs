@@ -10,6 +10,12 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
         {
             await next.Invoke(context);
         }
+        catch (DuplicateResourceException e)
+        {
+            logger.LogWarning(e.Message);
+            context.Response.StatusCode = StatusCodes.Status409Conflict;
+            await context.Response.WriteAsync(e.Message);
+        }
         catch (NotAllowedException e)
         {
             logger.LogWarning(e.Message);
