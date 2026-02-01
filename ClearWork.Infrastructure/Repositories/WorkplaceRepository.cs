@@ -17,12 +17,33 @@ internal class WorkplaceRepository(ClearWorkDbContext dbContext) : IWorkplaceRep
         return workplaces;
     }
 
-    public async Task<Workplace?> GetUserWorkplaceAsync(string userId, int workplaceId)
+    public async Task<Workplace?> GetUserWorkplaceAsync(string userId, int workplaceId, bool trackChanges = false)
     {
-        var workplace = await dbContext.Workplaces
-            .AsNoTracking()
-            .FirstOrDefaultAsync(w => w.UserId == userId && w.Id == workplaceId);
+        var query = dbContext.Workplaces.AsQueryable();
+
+        if (!trackChanges)
+            query = query.AsNoTracking();
+
+        var workplace = await query.FirstOrDefaultAsync(w => w.UserId == userId && w.Id == workplaceId);
         
         return workplace;
     }
+
+    public async Task<int> CreateUserWorkplaceAsync(Workplace entity)
+    {
+        await dbContext.Workplaces.AddAsync(entity);
+        await SaveChangesAsync();
+
+        return entity.Id;
+    }
+
+    public Task<bool> IsUserWorkplaceNameOccupiedAsync(string userId, string workplaceName)
+    {
+        return dbContext.Workplaces
+            .AsNoTracking()
+            .Where(w => w.UserId == userId)
+            .AnyAsync(w => w.Name == workplaceName);
+    }
+
+    public async Task SaveChangesAsync() => await dbContext.SaveChangesAsync();
 }

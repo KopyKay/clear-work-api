@@ -1,4 +1,7 @@
-﻿using ClearWork.Application.Workplaces.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
+using ClearWork.Application.Workplaces.Commands.CreateUserWorkplace;
+using ClearWork.Application.Workplaces.Commands.UpdateUserWorkplace;
+using ClearWork.Application.Workplaces.Dtos;
 using ClearWork.Application.Workplaces.Queries.GetUserWorkplace;
 using ClearWork.Application.Workplaces.Queries.GetUserWorkplaces;
 using MediatR;
@@ -24,5 +27,22 @@ public class WorkplaceController(IMediator mediator) : ControllerBase
     {
         var userWorkplace = await mediator.Send(new GetUserWorkplaceQuery(workplaceId));
         return Ok(userWorkplace);
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateUserWorkplace([FromBody, Required] CreateUserWorkplaceCommand command)
+    {
+        var workplaceId = await mediator.Send(command);
+        return CreatedAtAction(nameof(GetUserWorkplace), new { workplaceId }, null);
+    }
+
+    [HttpPatch("update/{workplaceId:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateUserWorkplace([FromRoute] int workplaceId, [FromBody, Required] UpdateUserWorkplaceCommand command)
+    {
+        command.Id = workplaceId;
+        await mediator.Send(command);
+        return NoContent();
     }
 }
