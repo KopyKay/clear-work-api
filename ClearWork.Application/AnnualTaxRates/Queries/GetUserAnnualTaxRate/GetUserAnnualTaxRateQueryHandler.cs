@@ -6,18 +6,18 @@ using ClearWork.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace ClearWork.Application.AnnualTaxRates.Queries.GetAnnualTaxRate;
+namespace ClearWork.Application.AnnualTaxRates.Queries.GetUserAnnualTaxRate;
 
-public class GetAnnualTaxRateQueryHandler 
+public class GetUserAnnualTaxRateQueryHandler 
 (
-    ILogger<GetAnnualTaxRateQueryHandler> logger,
+    ILogger<GetUserAnnualTaxRateQueryHandler> logger,
     IAnnualTaxRateRepository repository,
     IUserContext userContext,
     IMapper mapper
 )    
-: IRequestHandler<GetAnnualTaxRateQuery, AnnualTaxRateDto?>
+: IRequestHandler<GetUserAnnualTaxRateQuery, AnnualTaxRateDto?>
 {
-    public async Task<AnnualTaxRateDto?> Handle(GetAnnualTaxRateQuery request, CancellationToken cancellationToken)
+    public async Task<AnnualTaxRateDto?> Handle(GetUserAnnualTaxRateQuery request, CancellationToken cancellationToken)
     {
         var userId = userContext.GetCurrentUser()!.Id;
         

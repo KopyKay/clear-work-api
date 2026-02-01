@@ -2,8 +2,8 @@
 using ClearWork.Application.AnnualTaxRates.Commands.CreateUserAnnualTaxRate;
 using ClearWork.Application.AnnualTaxRates.Commands.UpdateUserAnnualTaxRate;
 using ClearWork.Application.AnnualTaxRates.Dtos;
-using ClearWork.Application.AnnualTaxRates.Queries.GetAnnualTaxRate;
-using ClearWork.Application.AnnualTaxRates.Queries.GetAnnualTaxRates;
+using ClearWork.Application.AnnualTaxRates.Queries.GetUserAnnualTaxRate;
+using ClearWork.Application.AnnualTaxRates.Queries.GetUserAnnualTaxRates;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +18,14 @@ public class AnnualTaxRateController(IMediator mediator) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AnnualTaxRateDto>>> GetUserAnnualTaxRates()
     {
-        var userAnnualTaxRates = await mediator.Send(new GetAnnualTaxRatesQuery());
+        var userAnnualTaxRates = await mediator.Send(new GetUserAnnualTaxRatesQuery());
         return Ok(userAnnualTaxRates);
     }
     
     [HttpGet("{year:int}")]
     public async Task<ActionResult<AnnualTaxRateDto?>> GetUserAnnualTaxRate([FromRoute] int year)
     {
-        var userAnnualTaxRate = await mediator.Send(new GetAnnualTaxRateQuery(year));
+        var userAnnualTaxRate = await mediator.Send(new GetUserAnnualTaxRateQuery(year));
         return Ok(userAnnualTaxRate);
     }
 
