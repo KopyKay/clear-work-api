@@ -6,9 +6,6 @@ public class CreateUserAnnualTaxRateCommandValidator : AbstractValidator<CreateU
 {
     public CreateUserAnnualTaxRateCommandValidator()
     {
-        RuleFor(command => command.Year)
-            .InclusiveBetween(2000, 2100);
-        
         RuleFor(command => command.PensionRate)
             .InclusiveBetween(0m, 1m);
 

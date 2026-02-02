@@ -30,6 +30,7 @@ public class WorkplaceController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("create")]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateUserWorkplace([FromBody, Required] CreateUserWorkplaceCommand command)
     {
         var workplaceId = await mediator.Send(command);
@@ -39,6 +40,7 @@ public class WorkplaceController(IMediator mediator) : ControllerBase
     [HttpPatch("update/{workplaceId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateUserWorkplace([FromRoute] int workplaceId, [FromBody, Required] UpdateUserWorkplaceCommand command)
     {
         command.Id = workplaceId;
