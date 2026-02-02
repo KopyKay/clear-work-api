@@ -10,6 +10,12 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
         {
             await next.Invoke(context);
         }
+        catch (InvalidDateRangeException e)
+        {
+            logger.LogWarning(e.Message);
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync(e.Message);
+        }
         catch (DuplicateResourceException e)
         {
             logger.LogWarning(e.Message);
