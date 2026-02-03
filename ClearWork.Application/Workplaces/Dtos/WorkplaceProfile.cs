@@ -24,6 +24,7 @@ public class WorkplaceProfile : Profile
         CreateMap<UpdateUserWorkplaceCommand, Workplace>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.UserId, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore()) 
             .ForMember(dest => dest.Name, opt =>
                 opt.Condition(src => !string.IsNullOrWhiteSpace(src.Name)))
             .ForMember(dest => dest.BaseHourlyRate, opt =>
@@ -40,6 +41,8 @@ public class WorkplaceProfile : Profile
             .ForMember(dest => dest.EmployeeRate, opt =>
                 opt.Condition(src => src.EmployeeRate.HasValue))
             .ForMember(dest => dest.EmployerRate, opt =>
-                opt.Condition(src => src.EmployerRate.HasValue));
+                opt.Condition(src => src.EmployerRate.HasValue))
+            .ForMember(dest => dest.IsActive, opt =>
+                opt.Condition(src => src.IsActive.HasValue));
     }
 }

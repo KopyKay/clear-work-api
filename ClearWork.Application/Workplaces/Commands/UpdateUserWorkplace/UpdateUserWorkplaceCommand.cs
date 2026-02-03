@@ -12,4 +12,5 @@ public record UpdateUserWorkplaceCommand : IRequest
     public string? Name { get; init; }
     public decimal? BaseHourlyRate { get; init; }
     public UpdatePpkSettingDto? PpkSettings { get; init; }
+    public bool? IsActive { get; init; }
 }
