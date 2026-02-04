@@ -5,5 +5,7 @@ namespace ClearWork.Domain.Repositories;
 public interface IPaycheckRepository
 {
     Task<IEnumerable<Paycheck>> GetEmploymentContractPaychecksAsync(int contractId);
-    Task<Paycheck?> GetEmploymentContractPaycheckAsync(int contractId, int paycheckId);
+    Task<Paycheck?> GetEmploymentContractPaycheckAsync(int contractId, int paycheckId, bool trackChanges = false);
+    Task<int> CreateEmploymentContractPaycheckAsync(Paycheck entity);
+    Task SaveChangesAsync();
 }
