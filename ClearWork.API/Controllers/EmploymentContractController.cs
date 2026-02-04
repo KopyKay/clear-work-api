@@ -35,6 +35,7 @@ public class EmploymentContractController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("create")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> CreateWorkplaceEmploymentContract
         ([FromRoute] int workplaceId, [FromBody, Required] CreateWorkplaceEmploymentContractCommand command)
@@ -47,6 +48,7 @@ public class EmploymentContractController(IMediator mediator) : ControllerBase
 
     [HttpPatch("update/{contractId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateWorkplaceEmploymentContract
         ([FromRoute] int workplaceId, [FromRoute] int contractId, [FromBody, Required] UpdateWorkplaceEmploymentContractCommand command)
