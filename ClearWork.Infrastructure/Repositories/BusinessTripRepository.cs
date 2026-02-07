@@ -17,12 +17,26 @@ internal class BusinessTripRepository(ClearWorkDbContext dbContext) : IBusinessT
         return businessTrips;
     }
 
-    public async Task<BusinessTrip?> GetEmploymentContractBusinessTripAsync(int contractId, int businessTripId)
+    public async Task<BusinessTrip?> GetEmploymentContractBusinessTripAsync(int contractId, int businessTripId, bool trackChanges = false)
     {
-        var businessTrip = await dbContext.BusinessTrips
-            .AsNoTracking()
+        var query = dbContext.BusinessTrips.AsQueryable();
+
+        if (!trackChanges)
+            query = query.AsNoTracking();
+        
+        var businessTrip = await query
             .FirstOrDefaultAsync(bt => bt.EmploymentContractId == contractId && bt.Id == businessTripId);
 
         return businessTrip;
     }
+
+    public async Task<int> CreateEmploymentContractBusinessTripAsync(BusinessTrip entity)
+    {
+        await dbContext.BusinessTrips.AddAsync(entity);
+        await SaveChangesAsync();
+        
+        return entity.Id;
+    }
+
+    public async Task SaveChangesAsync() => await dbContext.SaveChangesAsync();
 }

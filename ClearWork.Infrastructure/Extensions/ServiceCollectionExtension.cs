@@ -1,4 +1,5 @@
-﻿using ClearWork.Domain.Entities;
+﻿using ClearWork.Application.TimeEntries.Services;
+using ClearWork.Domain.Entities;
 using ClearWork.Domain.Repositories;
 using ClearWork.Infrastructure.Persistence;
 using ClearWork.Infrastructure.Repositories;
@@ -30,5 +31,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPaycheckRepository, PaycheckRepository>();
         services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
         services.AddScoped<IWorkplaceRepository, WorkplaceRepository>();
+        
+        services.AddScoped<ISalaryCalculationService, SalaryCalculationService>();
     }
 }

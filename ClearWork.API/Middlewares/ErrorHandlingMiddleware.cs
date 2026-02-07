@@ -34,6 +34,12 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             await context.Response.WriteAsync(e.Message);
         }
+        catch (BusinessRuleException e)
+        {
+            logger.LogWarning(e.Message);
+            context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            await context.Response.WriteAsync(e.Message);
+        }
         catch (Exception e)
         {
             logger.LogError(e, e.Message);
